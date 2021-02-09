@@ -1,12 +1,12 @@
 package com.Megan;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Battleship {
 
     public static void main(String[] args) {
 
-        Scanner scanner = new Scanner(System.in);
         System.out.println("Welcome to Battleship:)");
         int ships = 5;
 
@@ -70,7 +70,7 @@ public class Battleship {
             }
         }
 
-        System.out.println("Your opponent has " + ships + " ships left.");
+        //System.out.println("Your opponent has " + ships + " ships left.");
 
         return ships;
 
@@ -100,26 +100,41 @@ public class Battleship {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Take a guess at where your opponents ship is at (row col): ");
 
+        int a = (scanner.nextInt());
+        int b = (scanner.nextInt());
+
         for (int row = 1; (row < Opponent.length); row++){
 
             for (int col = 1; (col < Opponent[row].length); col++){
-                int a = ((int) scanner.nextInt());
-                int b = ((int) scanner.nextInt());
+
+                if (a>Opponent.length-2 || b>Opponent[col].length-2 || a<0 || b<0){
+                    System.out.println("Invalid coordinates. Choose different coordinates.");
+                    a = (scanner.nextInt());
+                    b = (scanner.nextInt());
+                    row = row-1;
+                }
+
                 if(a+1 == row && b+1 == col) {
                     if (Opponent[row][col] == "@") {
                         Opponent[row][col] = "X";
-                        System.out.println(System.out.println(playerturn + " hit " + opponent + "'s ship."););
-                    } else if (Opponent[row][col] == "-"){
+                        System.out.println(playerturn + " hit " + opponent + "\'s ship.");
+
+                    }else if(Opponent[row][col] == "-"){
                         Opponent[row][col] = "O";
                         System.out.println(playerturn + " missed :(");
+
                     }else{
                         System.out.println("You already fired on this spot. Choose different coordinates.");
-                        col=col-1;
+                        a = (scanner.nextInt());
+                        b = (scanner.nextInt());
+                        row = row-1;
                     }
                 }
             }
         }
+
         return Opponent;
+
     }
 
     public static String[][] getPlayerBoard(){
@@ -167,29 +182,29 @@ public class Battleship {
         int coordinate[][] = new int[5][2];
 
         for(int row = 0; row<coordinate.length; row ++){
-            for(int col = 0; col<coordinate[row].length; col+=2){
-                System.out.println("Please enter the coordinates for ship of length 1 (row, column): ");
-                int a = scanner.nextInt();
-                int b = scanner.nextInt();
+            for(int col = 0; col<1; col++) {
+                    System.out.println("Please enter the coordinates for ship of length 1 (row column): ");
 
-                scanner.reset();
-
-                if(a>player.length || b>player[col].length || a<=0 || b<=0){
-                    System.out.println("Invalid coordinates. Choose different coordinates.");
-                    row = row-1;
-                }else{
+                    int a = scanner.nextInt();
+                    int b = scanner.nextInt();
+                    scanner.reset();
                     coordinate[row][col] = a;
-                    coordinate[row][col+1] = b;
+                    coordinate[row][col + 1] = b;
 
-                    for(int row1 = 0; row1<row; row1 ++) {
+                    for (int row1 = 0; row1 < row; row1++) {
                         for (int col1 = 0; col1 <= col; col1 += 2) {
-                            if(coordinate[row1][col1] == a && coordinate[row1][col1+1] == b) {
+                            if (coordinate[row1][col1] == a && coordinate[row1][col1 + 1] == b) {
                                 System.out.println("You already have a ship there. Choose different coordinates.");
-                                row = row - 1;
+                                row = row-1;
                             }
                         }
                     }
-                }
+
+                    if(a>player.length || b>player[col].length || a<=0 || b<=0){
+                        System.out.println("Invalid coordinates. Choose different coordinates.");
+                        row = row-1;
+                    }
+
 
             }
         }
