@@ -21,13 +21,13 @@ public class Battleship {
         do {
             //player 1 turn
             hitMissBoard(player2);
-            player2 = playerTurn(player2);
+            player2 = playerTurn(player2, "player 1", "player 2");
             ships = opponentShipsLeft(player2);
             whiteSpace();
 
             //player 2 turn
             hitMissBoard(player1);
-            player1 = playerTurn(player1);
+            player1 = playerTurn(player1, "player 2", "player 1");
             ships = opponentShipsLeft(player1);
             whiteSpace();
 
@@ -48,6 +48,7 @@ public class Battleship {
                     hitmiss[row][col] = "X";
                 }else if(Opponent[row][col] == "O"){
                     hitmiss[row][col]="O";
+
                 }else{
                     hitmiss[row][col]="-";
                 }
@@ -94,25 +95,26 @@ public class Battleship {
 
     }
 
-    public static String[][] playerTurn(String Opponent[][]){
+    public static String[][] playerTurn(String Opponent[][], String playerturn, String opponent){
 
         Scanner scanner = new Scanner(System.in);
         System.out.println("Take a guess at where your opponents ship is at (row col): ");
 
-        int a = scanner.nextInt();
-        int b = scanner.nextInt();
-
         for (int row = 1; (row < Opponent.length); row++){
 
             for (int col = 1; (col < Opponent[row].length); col++){
-
+                int a = ((int) scanner.nextInt());
+                int b = ((int) scanner.nextInt());
                 if(a+1 == row && b+1 == col) {
                     if (Opponent[row][col] == "@") {
                         Opponent[row][col] = "X";
-                        System.out.println("You got a hit!!!");
-                    } else {
+                        System.out.println(System.out.println(playerturn + " hit " + opponent + "'s ship."););
+                    } else if (Opponent[row][col] == "-"){
                         Opponent[row][col] = "O";
-                        System.out.println("You missed :(");
+                        System.out.println(playerturn + " missed :(");
+                    }else{
+                        System.out.println("You already fired on this spot. Choose different coordinates.");
+                        col=col-1;
                     }
                 }
             }
